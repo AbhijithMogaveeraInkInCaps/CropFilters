@@ -9,12 +9,12 @@
     <com.abhijith.videoaspectration.MySimpleExoPlayer
         android:id="@+id/mySimpleExoPlayer"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="0dp"
         android:layout_centerInParent="true"
         android:background="@android:color/background_dark"
         android:letterSpacing="0.1"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnpickfile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.2"
@@ -31,11 +31,37 @@
         app:use_controller="true" />
 
     <Button
-        android:id="@+id/btnMonochrome"
+        android:id="@+id/btnpickfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/one_one"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="pick file"/>
+    <Button
+        android:id="@+id/one_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/sixteen_nine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Ratio 1:1"/>
+
+    <Button
+        android:id="@+id/sixteen_nine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/three_two"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Ratio 16:9"/>
+
+    <Button
+        android:id="@+id/three_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="Monochrome"/>
+        android:text="Ratio 3:2"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

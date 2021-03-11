@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.abhijith.videoaspectration">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -15,10 +16,11 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        tools:replace="android:theme"
         android:theme="@style/Theme.VideoAspectRation">
         <activity android:name=".ImageViewActivity"></activity>
         <activity android:name=".ImageCroppingActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".FilterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,7 +29,7 @@
         </activity>
         <activity android:name=".VideoCaptureActivity" />
         <activity android:name=".ImageCaptureActivity" />
-        <activity android:name=".FilterActivity" />
+<!--        <activity android:name=".FilterActivity" />-->
     </application>
 
 </manifest>

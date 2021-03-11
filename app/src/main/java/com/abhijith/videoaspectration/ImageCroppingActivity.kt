@@ -16,7 +16,6 @@ import com.steelkiwi.cropiwa.AspectRatio
 import com.steelkiwi.cropiwa.config.CropIwaSaveConfig
 import java.io.File
 
-
 class ImageCroppingActivity : AppCompatActivity() {
 
     val file by lazy {
