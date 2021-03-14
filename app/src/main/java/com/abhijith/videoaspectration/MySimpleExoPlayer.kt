@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import com.google.android.exoplayer2.*
+import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.TrackGroupArray
@@ -153,6 +154,10 @@ class MySimpleExoPlayer : PlayerView {
             init(uri)
             simpleExoPlayer.seekTo(1)
         }
+    }
+
+    fun prepare(clippingMediaSource: ClippingMediaSource) {
+        simpleExoPlayer.prepare(clippingMediaSource)
     }
 }
 
