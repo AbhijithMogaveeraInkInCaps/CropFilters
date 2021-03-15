@@ -19,7 +19,6 @@ internal class VideoFramesAdaptor(
 ) : RecyclerView.Adapter<VideoFramesAdaptor.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-//        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.image_view_holder_layout,parent,false))
         val imageView = ImageView(parent.context).apply {
             layoutParams = LinearLayout.LayoutParams(frameWidth, MATCH_PARENT)
             scaleType = ImageView.ScaleType.CENTER_CROP
@@ -31,12 +30,11 @@ internal class VideoFramesAdaptor(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val view = holder.itemView as ImageView
         val frame = frames[position]
-        view.setImageResource(R.drawable.pic)
-        Log.e("AMBO","${view.width} ${view.width}")
+//        view.setImageResource(R.drawable.pic)
         SetVideoThumbnailAsyncTask(view, frame).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, video)
     }
 
-    override fun getItemCount(): Int = frames.size
+    override fun getItemCount(): Int = frames.size-3
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 }

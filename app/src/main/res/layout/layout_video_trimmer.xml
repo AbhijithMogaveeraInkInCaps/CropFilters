@@ -24,11 +24,9 @@
         android:id="@+id/slidingWindowView"
         android:layout_width="match_parent"
         android:layout_height="43dp"
-        android:layout_marginStart="31dp"
         android:layout_marginTop="7dp"
-        android:layout_marginEnd="31dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/slidingWindowView"
+        app:layout_constraintStart_toStartOf="@id/slidingWindowView"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

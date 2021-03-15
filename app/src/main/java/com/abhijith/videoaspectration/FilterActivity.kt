@@ -242,8 +242,8 @@ class FilterActivity : AppCompatActivity(),
                         setVideo(FileUtil.from(this@FilterActivity, uri))
                             .setMaxDuration(10_000)                   // millis
                             .setMinDuration(5000)                    // millis
-                            .setFrameCountInWindow(8)
-                            .setExtraDragSpace(dpToPx(10f))                    // pixels
+                            .setFrameCountInWindow(10)
+//                            .setExtraDragSpace(dpToPx(10f))                    // pixels
                             .setOnSelectedRangeChangedListener(this@FilterActivity)
                             .show()
                     }
