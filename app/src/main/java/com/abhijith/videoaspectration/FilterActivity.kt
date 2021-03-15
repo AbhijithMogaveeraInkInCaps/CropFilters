@@ -26,6 +26,11 @@ import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import java.io.File
 
 
@@ -93,7 +98,12 @@ class FilterActivity : AppCompatActivity(),
                     (RATIO.OneOne.width).toFloat(),  // the video Width = W pixel
                     (RATIO.OneOne.height).toFloat()// the video Height = H pixel
                 )
-                compress(fillModeCustomItem, FileUtil.from(this, uri), exoPlayer, RATIO.OneOne)
+                compress(
+                    fillModeCustomItem,
+                    FileUtil.from(this@FilterActivity, uri),
+                    exoPlayer,
+                    RATIO.OneOne
+                )
             }
         }
 
@@ -103,13 +113,37 @@ class FilterActivity : AppCompatActivity(),
 
 
         findViewById<Button>(R.id.btnpickfile).setOnClickListener {
-            val intent = Intent()
-            intent.type = "video/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(
-                Intent.createChooser(intent, "Select Video"),
-                REQUEST_CODE_GALLERY_FILES
-            )
+
+            Dexter.withContext(this@FilterActivity)
+                .withPermissions(
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                )
+                .withListener(object : MultiplePermissionsListener {
+                    override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                        report.let {
+                            val intent = Intent()
+                            intent.type = "video/*"
+                            intent.action = Intent.ACTION_GET_CONTENT
+                            startActivityForResult(
+                                Intent.createChooser(intent, "Select Video"),
+                                REQUEST_CODE_GALLERY_FILES
+                            )
+                        }
+                    }
+
+                    override fun onPermissionRationaleShouldBeShown(
+                        permission: MutableList<PermissionRequest>?,
+                        token: PermissionToken?
+                    ) {
+                        token?.continuePermissionRequest()
+                    }
+
+                })
+                .withErrorListener {
+                    Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
+                }
+                .check()
 
         }
 
@@ -170,7 +204,7 @@ class FilterActivity : AppCompatActivity(),
         exoPlayer: MySimpleExoPlayer,
         ratio: RATIO
     ) {
-        if(!File("/storage/emulated/0/Filtered Videos").exists())
+        if (!File("/storage/emulated/0/Filtered Videos").exists())
             File("/storage/emulated/0/Filtered Videos").mkdir()
         val file = File("/storage/emulated/0/Filtered Videos", "${System.currentTimeMillis()}.mp4")
         Toast.makeText(this@FilterActivity, "Start", Toast.LENGTH_SHORT).show()
@@ -183,7 +217,7 @@ class FilterActivity : AppCompatActivity(),
             size(ratio.width, ratio.height)
             fillMode(FillMode.CUSTOM)
                 .customFillMode(fillModeCustomItem)
-                .trim(startMillis,endMillis)
+                //.trim(startMillis, endMillis)
 //                .fillMode(FillMode.PRESERVE_ASPECT_CROP)
                 .listener(object : Mp4Composer.Listener {
                     override fun onProgress(progress: Double) {
@@ -250,11 +284,12 @@ class FilterActivity : AppCompatActivity(),
                     actualHeight =
                         metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!
                             .toFloat()
-                    actualWidth = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!
-                        .toFloat()
+                    actualWidth =
+                        metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!
+                            .toFloat()
 
 //                    exoPlayer.player.addListener(this)
-                    findViewById<VideoTrimmerView>(R.id.videoTrimmerView).apply {
+                    /*findViewById<VideoTrimmerView>(R.id.videoTrimmerView).apply {
                         Log.e("ABHIIIII", "DUDE WTF")
                         setVideo(FileUtil.from(this@FilterActivity, uri))
                             .setMaxDuration(10_000)                   // millis
@@ -263,7 +298,7 @@ class FilterActivity : AppCompatActivity(),
 //                            .setExtraDragSpace(dpToPx(10f))                    // pixels
                             .setOnSelectedRangeChangedListener(this@FilterActivity)
                             .show()
-                    }
+                    }*/
                 }
 
                 Log.e("ABHIIIII", "" + FileUtil.from(this, uri).absolutePath)
