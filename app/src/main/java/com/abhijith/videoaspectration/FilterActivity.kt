@@ -58,6 +58,10 @@ class FilterActivity : AppCompatActivity(),
         DefaultDataSourceFactory(this, "VideoTrimmer")
     }
 
+    private val btnTrim by lazy {
+        findViewById<Button>(R.id.btnTrim)
+    }
+
     private fun playVideo(path: Uri, startMillis: Long, endMillis: Long) {
         val source = ProgressiveMediaSource.Factory(dataSourceFactory)
             .createMediaSource(path)
@@ -107,8 +111,8 @@ class FilterActivity : AppCompatActivity(),
             }
         }
 
-        findViewById<Button>(R.id.btnTrim).setOnClickListener {
-
+        btnTrim.setOnClickListener {
+            trim(FileUtil.from(this, uri))
         }
 
 
@@ -270,6 +274,70 @@ class FilterActivity : AppCompatActivity(),
         }
     }
 
+    private fun trim(f: File) {
+        if (!File("/storage/emulated/0/Filtered Videos").exists())
+            File("/storage/emulated/0/Filtered Videos").mkdir()
+        val file =
+            File("/storage/emulated/0/Filtered Videos", "trim ${System.currentTimeMillis()}.mp4")
+        Toast.makeText(this@FilterActivity, "Start", Toast.LENGTH_SHORT).show()
+        Mp4Composer(
+            Uri.fromFile(f),
+            file.absolutePath,
+            this@FilterActivity
+        ).apply {
+            //                rotation(Rotation.ROTATION_90)
+            trim(startMillis, endMillis)
+                .listener(object : Mp4Composer.Listener {
+                    override fun onProgress(progress: Double) {
+                        Log.e("ABHIIIII", progress.toString())
+                    }
+
+                    override fun onCurrentWrittenVideoTime(timeUs: Long) {
+
+                    }
+
+                    override fun onCompleted() {
+                        runOnUiThread {
+                            Toast.makeText(this@FilterActivity, "End", Toast.LENGTH_SHORT).show()
+                            exoPlayer.freeMemory()
+                            exoPlayer.play(Uri.fromFile(file))
+                            val mimeType = MimeTypeMap.getSingleton()
+                                .getMimeTypeFromExtension(file.extension)
+                            MediaScannerConnection.scanFile(
+                                this@FilterActivity,
+                                arrayOf(file.absolutePath),
+                                arrayOf(mimeType)
+                            ) { _, uri ->
+                                Log.d(
+                                    "TAG",
+                                    "Image capture scanned into media store: $uri"
+                                )
+                            }
+
+                        }
+
+
+                    }
+
+                    override fun onCanceled() {
+
+                    }
+
+                    override fun onFailed(exception: Exception?) {
+                        runOnUiThread {
+                            Toast.makeText(
+                                this@FilterActivity,
+                                "Error ${exception.toString()}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            Log.e("ABHIIIII", "${exception.toString()}")
+                        }
+                    }
+                })
+            start()
+        }
+    }
+
     lateinit var uri: Uri
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -288,16 +356,16 @@ class FilterActivity : AppCompatActivity(),
                         metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!
                             .toFloat()
 
-//                    exoPlayer.player.addListener(this)
-                    /*findViewById<VideoTrimmerView>(R.id.videoTrimmerView).apply {
+                    exoPlayer.player.addListener(this)
+                    findViewById<VideoTrimmerView>(R.id.videoTrimmerView).apply {
                         setVideo(FileUtil.from(this@FilterActivity, uri))
-                            .setMaxDuration(10_000)                   // millis
-                            .setMinDuration(5000)                    // millis
+                            .setMaxDuration(60_000)                   // millis
+                            .setMinDuration(1000)                    // millis
                             .setFrameCountInWindow(10)
 //                            .setExtraDragSpace(dpToPx(10f))                    // pixels
                             .setOnSelectedRangeChangedListener(this@FilterActivity)
                             .show()
-                    }*/
+                    }
                 }
 
                 Log.e("ABHIIIII", "" + FileUtil.from(this, uri).absolutePath)
