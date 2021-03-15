@@ -290,7 +290,6 @@ class FilterActivity : AppCompatActivity(),
 
 //                    exoPlayer.player.addListener(this)
                     /*findViewById<VideoTrimmerView>(R.id.videoTrimmerView).apply {
-                        Log.e("ABHIIIII", "DUDE WTF")
                         setVideo(FileUtil.from(this@FilterActivity, uri))
                             .setMaxDuration(10_000)                   // millis
                             .setMinDuration(5000)                    // millis
