@@ -7,9 +7,11 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.media.MediaMetadataRetriever
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.webkit.MimeTypeMap
 import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.AnyRes
@@ -197,7 +199,22 @@ class FilterActivity : AppCompatActivity(),
                             Toast.makeText(this@FilterActivity, "End", Toast.LENGTH_SHORT).show()
                             exoPlayer.freeMemory()
                             exoPlayer.play(Uri.fromFile(file))
+                            val mimeType = MimeTypeMap.getSingleton()
+                                .getMimeTypeFromExtension(file?.extension)
+                            MediaScannerConnection.scanFile(
+                                this@FilterActivity,
+                                arrayOf(file.absolutePath),
+                                arrayOf(mimeType)
+                            ) { _, uri ->
+                                Log.d(
+                                    "TAG",
+                                    "Image capture scanned into media store: $uri"
+                                )
+                            }
+
                         }
+
+
                     }
 
                     override fun onCanceled() {
