@@ -6,7 +6,6 @@ import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.media.MediaFormat
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
@@ -25,14 +24,6 @@ import com.google.android.exoplayer2.source.ClippingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import net.ypresto.androidtranscoder.format.MediaFormatStrategy
-import pyxis.uzuki.live.mediaresizer.MediaResizer
-import pyxis.uzuki.live.mediaresizer.data.ResizeOption
-import pyxis.uzuki.live.mediaresizer.data.VideoResizeOption
-import pyxis.uzuki.live.mediaresizer.model.MediaType
-import pyxis.uzuki.live.mediaresizer.model.ScanRequest
-import pyxis.uzuki.live.mediaresizer.model.VideoResolutionType
-import pyxis.uzuki.live.richutilskt.utils.toast
 import java.io.File
 
 
@@ -138,7 +129,7 @@ class FilterActivity : AppCompatActivity(),
         findViewById<Button>(R.id.three_two).setOnClickListener {
             runSafe {
 
-                val resizeOption = VideoResizeOption.Builder()
+                /*val resizeOption = VideoResizeOption.Builder()
                     .setVideoResolutionType(VideoResolutionType.AS720)
                     .setVideoBitrate(720 * 720)
                     .setAudioBitrate(128 * 1000)
@@ -154,10 +145,10 @@ class FilterActivity : AppCompatActivity(),
                     .setCallback { code, output ->
                         toast("complete",Toast.LENGTH_SHORT)
                     }
-                    .build()
+                    .build()*/
 
-                MediaResizer.process(option)
-                /*var fillModeCustomItem = FillModeCustomItem(
+                /*MediaResizer.process(option)*/
+                var fillModeCustomItem = FillModeCustomItem(
                     1f,
                     0f,
                     0.toFloat(),
@@ -166,7 +157,7 @@ class FilterActivity : AppCompatActivity(),
                     (RATIO.ThreeTwo.height).toFloat() // the video Height = H pixel
                 )
                 compress(fillModeCustomItem, FileUtil.from(this, uri), exoPlayer, RATIO.ThreeTwo)
-           */ }
+            }
         }
 
     }
@@ -177,7 +168,9 @@ class FilterActivity : AppCompatActivity(),
         exoPlayer: MySimpleExoPlayer,
         ratio: RATIO
     ) {
-        val file = File("/storage/emulated/0/Filtered Videos", "mono.mp4")
+        if(!File("/storage/emulated/0/Filtered Videos").exists())
+            File("/storage/emulated/0/Filtered Videos").mkdir()
+        val file = File("/storage/emulated/0/Filtered Videos", "${System.currentTimeMillis()}.mp4")
         Toast.makeText(this@FilterActivity, "Start", Toast.LENGTH_SHORT).show()
         Mp4Composer(
             Uri.fromFile(f),
@@ -298,7 +291,7 @@ internal fun Context.getResourceUri(@AnyRes resourceId: Int): Uri =
 sealed class RATIO(val width: Int, val height: Int) {
     object OneOne : RATIO(720, 720)
     object SixTeenNine : RATIO(720, 406)
-    object ThreeTwo : RATIO(720, 480)
+    object ThreeTwo : RATIO(720, 900)
 }
 
 
