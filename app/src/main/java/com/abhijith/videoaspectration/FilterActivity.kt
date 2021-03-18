@@ -33,21 +33,20 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.lb.video_trimmer_library.interfaces.VideoTrimmingListener
-import pyxis.uzuki.live.richutilskt.utils.toast
 import java.io.File
 
 
 const val REQUEST_CODE_GALLERY_FILES = 10
 
-class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingListener {
+class FilterActivity : AppCompatActivity(),VideoTrimmingListener {
 
     var startMillis: Long = 0
     var endMillis: Long = 0
 
-    var actualHeight: Float = 0F
+    /*var actualHeight: Float = 0F
     var actualWidth: Float = 0F
 
-    var actual_video_height = 0
+    var actual_video_height = 0*/
 
     /*override fun onSeekProcessed() {
         super.onSeekProcessed()
@@ -354,7 +353,7 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
 //                    return
                 exoPlayer.play(uri)
                 runOnUiThread {
-                    val metaRetriever = MediaMetadataRetriever()
+                   /* val metaRetriever = MediaMetadataRetriever()
                     metaRetriever.setDataSource(FileUtil.from(this, uri).absolutePath)
                     actualHeight =
                         metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!
@@ -363,14 +362,14 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
                         metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)!!
                             .toFloat()
                     (if (actualWidth < 60_000) {
-                        toast(actualWidth.toString())
+//                        toast(actualWidth.toString())
                         actualWidth
                     } else {
                         60_000
                     }).toLong()
 
                     if (actualWidth < 60_000)
-                        exoPlayer.player.addListener(this)
+                        exoPlayer.player.addListener(this)*/
                     findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).init()
                     findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setMaxDurationInMs(
                         60 * 1000

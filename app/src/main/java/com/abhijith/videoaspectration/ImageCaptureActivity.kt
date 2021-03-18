@@ -27,6 +27,7 @@ class ImageCaptureActivity : AppCompatActivity() {
         val fileName = String.format("%d.jpeg", System.currentTimeMillis())
         File(f.absolutePath, fileName)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ActivityImageCaptureBinding.inflate(layoutInflater).apply {
