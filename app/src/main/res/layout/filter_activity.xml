@@ -53,10 +53,10 @@
         app:range_progress_endValue="60"
         app:range_progress_startEnd_minDiff="1"
         app:range_progress_startValue="50" />
-    <com.abhijith.videoaspectration.aother.VideoTrimmerView
+    <com.abhijith.videoaspectration.videotrimmerlib.VideoTrimmerView
         android:id="@+id/videoTrimmerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:visibility="visible"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"

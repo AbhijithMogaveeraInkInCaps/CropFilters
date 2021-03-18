@@ -57,12 +57,12 @@ abstract class BaseVideoTrimmerView @JvmOverloads constructor(
     attrs: AttributeSet,
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
-    private lateinit var rangeSeekBarView: RangeSeekBarView
-    private lateinit var videoViewContainer: View
-    private lateinit var timeInfoContainer: View
-    private lateinit var videoView: VideoView
-    private lateinit var playView: View
-    private lateinit var timeLineView: TimeLineView
+    private val rangeSeekBarView: RangeSeekBarView
+    private val videoViewContainer: View
+    private val timeInfoContainer: View
+    private val videoView: VideoView
+    private val playView: View
+    private val timeLineView: TimeLineView
     private var src: Uri? = null
     private var dstFile: File? = null
     private var maxDurationInMs: Int = 0
@@ -76,7 +76,7 @@ abstract class BaseVideoTrimmerView @JvmOverloads constructor(
     private var resetSeekBar = true
     private val messageHandler = MessageHandler(this)
 
-    open fun init() {
+    init {
         initRootView()
         rangeSeekBarView = getRangeSeekBarView()
         videoViewContainer = getVideoViewContainer()

@@ -18,7 +18,6 @@ import androidx.annotation.AnyRes
 import androidx.appcompat.app.AppCompatActivity
 import com.abhijith.videoaspectration.aother.EXTRA_INPUT_URI
 import com.abhijith.videoaspectration.aother.TrimmerActivity
-import com.abhijith.videoaspectration.aother.TrimmerActivity2
 import com.abhijith.videoaspectration.helper.FileUtil
 import com.abhijith.videoaspectration.videotrimmerlib.VideoTrimmerView
 import com.daasuu.mp4compose.FillMode
@@ -42,7 +41,8 @@ import java.io.File
 
 const val REQUEST_CODE_GALLERY_FILES = 10
 
-class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingListener  {
+class FilterActivity : AppCompatActivity(),
+    VideoTrimmerView.OnSelectedRangeChangedListener, Player.EventListener, VideoTrimmingListener  {
 
     var startMillis: Long = 0
     var endMillis: Long = 0
@@ -95,14 +95,8 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        for(i in 1..300){
-            Log.e("urao","error")
-        }
         setContentView(R.layout.filter_activity)
-
-
-        /* findViewById<RangeSeekBar>(R.id.rangeSeekBar).apply {
+       /* findViewById<RangeSeekBar>(R.id.rangeSeekBar).apply {
             this.
         }*/
         findViewById<Button>(R.id.one_one).setOnClickListener {
@@ -358,16 +352,9 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_GALLERY_FILES) {
                 uri = data!!.data!!
-//                startTrimActivity(data.data!!)
-
-                findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).init()
-                findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setMaxDurationInMs(60 * 1000)
-                findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setOnK4LVideoListener(this)
-                findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setDestinationFile(File(""))
-                findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setVideoURI(uri)
-                findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setVideoInformationVisibility(true)
-//                if(true)
-//                    return
+                startTrimActivity(data.data!!)
+                if(true)
+                    return
                 exoPlayer.play(uri)
                 runOnUiThread {
                     val metaRetriever = MediaMetadataRetriever()
@@ -383,9 +370,9 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
                         60_000
                     }).toLong()
 
-//                    if (actualWidth < 60_000)
+                    if (actualWidth < 60_000)
                         exoPlayer.player.addListener(this)
-                   /* findViewById<VideoTrimmerView>(R.id.videoTrimmerView).apply {
+                    findViewById<VideoTrimmerView>(R.id.videoTrimmerView).apply {
                         setVideo(FileUtil.from(this@FilterActivity, uri))
                             .setMaxDuration(
 //                                10_000
@@ -403,14 +390,14 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
                             .setOnSelectedRangeChangedListener(this@FilterActivity)
                             .show()
                     }
-                */}
+                }
 
                 Log.e("ABHIIIII", "" + FileUtil.from(this, uri).absolutePath)
             }
         }
     }
 
- /*   override fun onSelectRange(startMillis: Long, endMillis: Long) {
+    override fun onSelectRange(startMillis: Long, endMillis: Long) {
 
     }
 
@@ -434,7 +421,7 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
     override fun onSelectRangeStart() {
 
     }
-*/
+
     override fun onVideoPrepared() {
 
     }
@@ -451,11 +438,6 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
 
     }
 
-    override fun onSelection(startMilliSecond: Long, endMilliSecond: Long) {
-        super.onSelection(startMilliSecond, endMilliSecond)
-        Log.e("BABURAO","$startMilliSecond $endMilliSecond")
-
-    }
 }
 
 internal fun Context.getResourceUri(@AnyRes resourceId: Int): Uri =
@@ -480,7 +462,7 @@ private fun Context.dpToPx(dp: Float): Float {
 }
 
 private fun Context.startTrimActivity(uri: Uri) {
-    val intent = Intent(this, TrimmerActivity2::class.java)
+    val intent = Intent(this, TrimmerActivity::class.java)
     intent.putExtra(EXTRA_INPUT_URI, uri)
     startActivity(intent)
 }
