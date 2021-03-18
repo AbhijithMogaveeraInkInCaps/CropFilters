@@ -37,7 +37,7 @@ import kotlin.math.absoluteValue
 @Suppress("LeakingThis")
 open class RangeSeekBarView @JvmOverloads constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int = 0) :
     View(context, attrs, defStyleAttr) {
-    enum class ThumbType(val index: kotlin.Int) {
+    enum class ThumbType(val index: Int) {
         LEFT(0), RIGHT(1)
     }
 
