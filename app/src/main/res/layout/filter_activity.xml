@@ -27,7 +27,7 @@
         app:controller_layout_id="@layout/video_player_layout"
         app:fastforward_increment="10000"
         app:hide_on_touch="true"
-        app:layout_constraintBottom_toTopOf="@id/rangeSeekBar"
+        app:layout_constraintBottom_toTopOf="@id/videoTrimmerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -37,6 +37,7 @@
         app:rewind_increment="10000"
         app:show_timeout="5000"
         app:use_controller="true" />
+
     <it.sephiroth.android.library.rangeseekbar.RangeSeekBar
         android:id="@+id/rangeSeekBar"
         style="@style/Base.Sephiroth.Widget.RangeSeekBar"

@@ -372,7 +372,7 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
                     if (actualWidth < 60_000)
                         exoPlayer.player.addListener(this)
                     findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).init()
-                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setMaxDurationInMs(10 * 1000)
+                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setMaxDurationInMs(60 * 1000)
                     findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setOnK4LVideoListener(this)
                     val parentFolder = getExternalFilesDir(null)!!
                     parentFolder.mkdirs()
