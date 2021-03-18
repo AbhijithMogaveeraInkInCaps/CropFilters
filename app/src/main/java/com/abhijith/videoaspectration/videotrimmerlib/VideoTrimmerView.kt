@@ -190,8 +190,8 @@ constructor(
     /* -------------------------------------------------------------------------------------------*/
     /* Listener */
     interface OnSelectedRangeChangedListener {
-        fun onSelectRangeStart()
-        fun onSelectRange(startMillis: Long, endMillis: Long)
-        fun onSelectRangeEnd(startMillis: Long, endMillis: Long)
+        fun onSelectRangeStart(){}
+        fun onSelectRange(startMillis: Long, endMillis: Long){}
+        fun onSelectRangeEnd(startMillis: Long, endMillis: Long){}
     }
 }

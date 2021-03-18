@@ -52,17 +52,18 @@ import com.lb.video_trimmer_library.view.TimeLineView
 import java.io.File
 import java.lang.ref.WeakReference
 
-abstract class BaseVideoTrimmerView @JvmOverloads constructor(
+abstract class BaseVideoTrimmerView
+@JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet,
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
-    private val rangeSeekBarView: RangeSeekBarView
-    private val videoViewContainer: View
-    private val timeInfoContainer: View
-    private val videoView: VideoView
-    private val playView: View
-    private val timeLineView: TimeLineView
+    private lateinit var rangeSeekBarView: RangeSeekBarView
+    private lateinit var videoViewContainer: View
+    private lateinit var timeInfoContainer: View
+    private lateinit var videoView: VideoView
+    private lateinit var playView: View
+    private lateinit var timeLineView: TimeLineView
     private var src: Uri? = null
     private var dstFile: File? = null
     private var maxDurationInMs: Int = 0
@@ -76,7 +77,7 @@ abstract class BaseVideoTrimmerView @JvmOverloads constructor(
     private var resetSeekBar = true
     private val messageHandler = MessageHandler(this)
 
-    init {
+    fun init() {
         initRootView()
         rangeSeekBarView = getRangeSeekBarView()
         videoViewContainer = getVideoViewContainer()
@@ -124,11 +125,6 @@ abstract class BaseVideoTrimmerView @JvmOverloads constructor(
                 }
             }
         )
-        videoView.setOnErrorListener { _, what, extra ->
-            if (videoTrimmingListener != null)
-                videoTrimmingListener!!.onErrorWhileViewingVideo(what, extra)
-            false
-        }
 
         videoView.setOnTouchListener { v, event ->
             gestureDetector.onTouchEvent(event)
@@ -154,6 +150,11 @@ abstract class BaseVideoTrimmerView @JvmOverloads constructor(
         })
         videoView.setOnPreparedListener { this.onVideoPrepared(it) }
         videoView.setOnCompletionListener { onVideoCompleted() }
+
+    }
+
+    fun pause(){
+
     }
 
     private fun setUpMargins() {
@@ -167,7 +168,6 @@ abstract class BaseVideoTrimmerView @JvmOverloads constructor(
     @UiThread
     fun initiateTrimming() {
         pauseVideo()
-
         val mediaMetadataRetriever = MediaMetadataRetriever()
         mediaMetadataRetriever.setDataSource(context, src)
         Log.e("URAO","$startPosition $endPosition")

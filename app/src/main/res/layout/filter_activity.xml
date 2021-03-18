@@ -53,17 +53,15 @@
         app:range_progress_endValue="60"
         app:range_progress_startEnd_minDiff="1"
         app:range_progress_startValue="50" />
-    <com.abhijith.videoaspectration.videotrimmerlib.VideoTrimmerView
+
+    <com.abhijith.videoaspectration.aother.VideoTrimmerView
         android:id="@+id/videoTrimmerView"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:visibility="visible"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
         app:layout_constraintBottom_toTopOf="@id/btnpickfile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:vtv_window_border_color="@android:color/white"
         />
     <!-- <Button
          android:id="@+id/btnTrim"

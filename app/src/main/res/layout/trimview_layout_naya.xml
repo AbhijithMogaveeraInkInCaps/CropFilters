@@ -4,25 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/purple_500"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <FrameLayout
         android:id="@+id/videoViewContainer"
         android:layout_width="match_parent"
+        android:visibility="visible"
         android:layout_height="match_parent"
         android:background="@android:color/black">
 
         <VideoView
             android:id="@+id/videoView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="1px"
+            android:layout_height="1px"
             android:layout_gravity="center"
             tools:foreground="@tools:sample/backgrounds/scenic" />
 
         <ImageView
             android:id="@+id/playIndicatorView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="1px"
+            android:layout_height="1px"
             android:layout_gravity="center"
             app:srcCompat="@drawable/icon_video_play" />
 
@@ -30,8 +31,8 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="1px"
+        android:layout_height="1px"
         android:layout_margin="16dp"
         android:clickable="true"
         android:focusable="true"
@@ -73,7 +74,7 @@
         android:id="@+id/timeTextContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@id/trimmingContainer"
         tools:visibility="visible">
 

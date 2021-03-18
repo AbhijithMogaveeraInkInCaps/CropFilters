@@ -28,6 +28,7 @@ class VideoTrimmerView @JvmOverloads constructor(context: Context, attrs: Attrib
             timeFormatter.format("%02d:%02d", minutes, seconds).toString()
     }
 
+
     override fun initRootView() {
         LayoutInflater.from(context).inflate(R.layout.trimview_layout_naya, this, true)
         findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { initiateTrimming() }

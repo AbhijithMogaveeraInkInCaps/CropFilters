@@ -41,8 +41,7 @@ import java.io.File
 
 const val REQUEST_CODE_GALLERY_FILES = 10
 
-class FilterActivity : AppCompatActivity(),
-    VideoTrimmerView.OnSelectedRangeChangedListener, Player.EventListener, VideoTrimmingListener  {
+class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingListener  {
 
     var startMillis: Long = 0
     var endMillis: Long = 0
@@ -352,9 +351,9 @@ class FilterActivity : AppCompatActivity(),
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_GALLERY_FILES) {
                 uri = data!!.data!!
-                startTrimActivity(data.data!!)
-                if(true)
-                    return
+//                startTrimActivity(data.data!!)
+//                if(true)
+//                    return
                 exoPlayer.play(uri)
                 runOnUiThread {
                     val metaRetriever = MediaMetadataRetriever()
@@ -372,7 +371,17 @@ class FilterActivity : AppCompatActivity(),
 
                     if (actualWidth < 60_000)
                         exoPlayer.player.addListener(this)
-                    findViewById<VideoTrimmerView>(R.id.videoTrimmerView).apply {
+                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).init()
+                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setMaxDurationInMs(10 * 1000)
+                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setOnK4LVideoListener(this)
+                    val parentFolder = getExternalFilesDir(null)!!
+                    parentFolder.mkdirs()
+                    val fileName = "trimmedVideo_${System.currentTimeMillis()}.mp4"
+                    val trimmedVideoFile = File(parentFolder, fileName)
+                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setDestinationFile(trimmedVideoFile)
+                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setVideoURI(uri)
+                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setVideoInformationVisibility(true)
+                   /* findViewById<VideoTrimmerView>(R.id.videoTrimmerView).apply {
                         setVideo(FileUtil.from(this@FilterActivity, uri))
                             .setMaxDuration(
 //                                10_000
@@ -390,6 +399,7 @@ class FilterActivity : AppCompatActivity(),
                             .setOnSelectedRangeChangedListener(this@FilterActivity)
                             .show()
                     }
+               */
                 }
 
                 Log.e("ABHIIIII", "" + FileUtil.from(this, uri).absolutePath)
@@ -397,16 +407,13 @@ class FilterActivity : AppCompatActivity(),
         }
     }
 
-    override fun onSelectRange(startMillis: Long, endMillis: Long) {
+/*    override fun onSelectRange(startMillis: Long, endMillis: Long) {
 
     }
 
 
     override fun onSelectRangeEnd(startMillis: Long, endMillis: Long) {
-        exoPlayer.player.seekTo(startMillis)
-        playVideo(uri, startMillis, endMillis)
-        this.startMillis = startMillis
-        this.endMillis = endMillis
+
 //        Log.e("BRO","$startMillis, $endMillis")
 //        exoPlayer.player.addListener(object :Player.EventListener{
 //            override fun onSeekProcessed() {
@@ -420,7 +427,7 @@ class FilterActivity : AppCompatActivity(),
 
     override fun onSelectRangeStart() {
 
-    }
+    }*/
 
     override fun onVideoPrepared() {
 
@@ -430,13 +437,22 @@ class FilterActivity : AppCompatActivity(),
 
     }
 
-    override fun onFinishedTrimming(uri: Uri?) {
+    override fun onFinishedTrimming(urdi: Uri?) {
 
     }
 
     override fun onErrorWhileViewingVideo(what: Int, extra: Int) {
 
     }
+
+    override fun onSelection(startMilliSecond: Long, endMilliSecond: Long) {
+        super.onSelection(startMilliSecond, endMilliSecond)
+        exoPlayer.player.seekTo(startMillis)
+        playVideo(uri, startMilliSecond, endMilliSecond)
+        this.startMillis = startMilliSecond
+        this.endMillis = endMilliSecond
+    }
+
 
 }
 
@@ -466,3 +482,13 @@ private fun Context.startTrimActivity(uri: Uri) {
     intent.putExtra(EXTRA_INPUT_URI, uri)
     startActivity(intent)
 }
+/*
+*
+*
+*  interface OnSelectedRangeChangedListener {
+        fun onSelectRangeStart(){}
+        fun onSelectRange(startMillis: Long, endMillis: Long){}
+        fun onSelectRangeEnd(startMillis: Long, endMillis: Long){}
+    }
+*
+* */
