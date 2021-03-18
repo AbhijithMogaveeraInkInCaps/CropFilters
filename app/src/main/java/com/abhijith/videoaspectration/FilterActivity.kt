@@ -458,15 +458,15 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
     override fun onSelection(startMilliSecond: Long, endMilliSecond: Long) {
         super.onSelection(startMilliSecond, endMilliSecond)
         exoPlayer.player.seekTo(startMillis)
-        if (endMilliSecond == 0.toLong())
-            playVideo(uri, startMilliSecond, endMilliSecond+1)
-        else
+        if (endMilliSecond == startMilliSecond) {
+//            findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setSeekBarPosition()
+//            playVideo(uri, startMilliSecond, endMilliSecond + 1)
+        }else {
             playVideo(uri, startMilliSecond, endMilliSecond)
+        }
         this.startMillis = startMilliSecond
         this.endMillis = endMilliSecond
     }
-
-
 }
 
 internal fun Context.getResourceUri(@AnyRes resourceId: Int): Uri =

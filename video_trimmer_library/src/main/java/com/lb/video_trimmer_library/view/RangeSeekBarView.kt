@@ -109,6 +109,11 @@ open class RangeSeekBarView @JvmOverloads constructor(context: Context, attrs: A
         super.onDraw(canvas)
         if (thumbs.isEmpty())
             return
+//        if((thumbs[ThumbType.LEFT.index].pos + paddingLeft + thumbWidth) == thumbs[ThumbType.RIGHT.index].pos - paddingRight){
+//            thumbs[ThumbType.RIGHT.index].pos = thumbs[ThumbType.RIGHT.index].pos+6
+//            invalidate()
+//            return
+//        }
         // draw shadows outside of selected range
         for (thumb in thumbs) {
             if (thumb.index == ThumbType.LEFT.index) {
@@ -131,15 +136,16 @@ open class RangeSeekBarView @JvmOverloads constructor(context: Context, attrs: A
         )
         //draw edges
         val circleRadius = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 6f, context.resources.displayMetrics)
+
         canvas.drawCircle(
             (thumbs[ThumbType.LEFT.index].pos + paddingLeft + thumbWidth),
-            height.toFloat() / 2f,
+            (height.toFloat() / 2f),
             circleRadius,
             edgePaint
         )
         canvas.drawCircle(
             thumbs[ThumbType.RIGHT.index].pos - paddingRight,
-            height.toFloat() / 2f,
+            (height.toFloat() / 2f),
             circleRadius,
             edgePaint
         )

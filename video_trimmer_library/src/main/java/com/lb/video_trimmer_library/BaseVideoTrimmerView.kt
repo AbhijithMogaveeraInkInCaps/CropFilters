@@ -247,7 +247,7 @@ abstract class BaseVideoTrimmerView
             videoTrimmingListener!!.onVideoPrepared()
     }
 
-    private fun setSeekBarPosition() {
+    fun setSeekBarPosition() {
         if (duration >= maxDurationInMs) {
             startPosition = duration / 2 - maxDurationInMs / 2
             endPosition = duration / 2 + maxDurationInMs / 2
