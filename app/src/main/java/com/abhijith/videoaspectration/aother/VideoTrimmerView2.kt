@@ -14,7 +14,7 @@ import com.lb.video_trimmer_library.BaseVideoTrimmerView
 import com.lb.video_trimmer_library.view.RangeSeekBarView
 import com.lb.video_trimmer_library.view.TimeLineView
 
-class VideoTrimmerView @JvmOverloads
+class VideoTrimmerView2 @JvmOverloads
 constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int = 0) : BaseVideoTrimmerView(context, attrs, defStyleAttr) {
 
     private fun stringForTime(timeMs: Int): String {
@@ -31,12 +31,12 @@ constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int = 0) : Base
 
     override fun initRootView() {
         LayoutInflater.from(context).inflate(R.layout.trimview_layout_naya, this, true)
-//        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { initiateTrimming() }
+
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+            initiateTrimming()
+        }
     }
 
-    override fun init(){
-        super.init()
-    }
     override fun getTimeLineView(): TimeLineView = findViewById(R.id.timeLineView)
 
     override fun getTimeInfoContainer(): View = findViewById(R.id.timeTextContainer)
