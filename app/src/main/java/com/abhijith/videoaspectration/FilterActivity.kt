@@ -16,6 +16,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.AnyRes
 import androidx.appcompat.app.AppCompatActivity
+import com.abhijith.videoaspectration.aother.EXTRA_INPUT_URI
+import com.abhijith.videoaspectration.aother.TrimmerActivity
 import com.abhijith.videoaspectration.helper.FileUtil
 import com.abhijith.videoaspectration.videotrimmerlib.VideoTrimmerView
 import com.daasuu.mp4compose.FillMode
@@ -31,13 +33,16 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.lb.video_trimmer_library.interfaces.VideoTrimmingListener
+import it.sephiroth.android.library.rangeseekbar.RangeSeekBar
+import pyxis.uzuki.live.richutilskt.utils.toast
 import java.io.File
 
 
 const val REQUEST_CODE_GALLERY_FILES = 10
 
 class FilterActivity : AppCompatActivity(),
-    VideoTrimmerView.OnSelectedRangeChangedListener, Player.EventListener {
+    VideoTrimmerView.OnSelectedRangeChangedListener, Player.EventListener, VideoTrimmingListener  {
 
     var startMillis: Long = 0
     var endMillis: Long = 0
@@ -91,7 +96,9 @@ class FilterActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.filter_activity)
-
+       /* findViewById<RangeSeekBar>(R.id.rangeSeekBar).apply {
+            this.
+        }*/
         findViewById<Button>(R.id.one_one).setOnClickListener {
             runSafe {
                 val fillModeCustomItem = FillModeCustomItem(
@@ -345,23 +352,40 @@ class FilterActivity : AppCompatActivity(),
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_CODE_GALLERY_FILES) {
                 uri = data!!.data!!
+                startTrimActivity(data.data!!)
+                if(true)
+                    return
                 exoPlayer.play(uri)
                 runOnUiThread {
                     val metaRetriever = MediaMetadataRetriever()
                     metaRetriever.setDataSource(FileUtil.from(this, uri).absolutePath)
-                    actualHeight =
-                        metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!
+                    actualHeight = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!
                             .toFloat()
-                    actualWidth =
-                        metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH)!!
+                    actualWidth = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)!!
                             .toFloat()
+                    (if (actualWidth < 60_000) {
+                        toast(actualWidth.toString())
+                        actualWidth
+                    } else {
+                        60_000
+                    }).toLong()
 
-                    exoPlayer.player.addListener(this)
+                    if (actualWidth < 60_000)
+                        exoPlayer.player.addListener(this)
                     findViewById<VideoTrimmerView>(R.id.videoTrimmerView).apply {
                         setVideo(FileUtil.from(this@FilterActivity, uri))
-                            .setMaxDuration(60_000)                   // millis
+                            .setMaxDuration(
+//                                10_000
+                                (if (actualWidth < 60_000) {
+                                    toast(actualWidth.toString())
+                                    actualWidth
+                                } else {
+                                    60_000
+                                }).toLong()
+
+                            )                   // millis
                             .setMinDuration(1000)                    // millis
-                            .setFrameCountInWindow(10)
+                            .setFrameCountInWindow(30)
 //                            .setExtraDragSpace(dpToPx(10f))                    // pixels
                             .setOnSelectedRangeChangedListener(this@FilterActivity)
                             .show()
@@ -398,6 +422,22 @@ class FilterActivity : AppCompatActivity(),
 
     }
 
+    override fun onVideoPrepared() {
+
+    }
+
+    override fun onTrimStarted() {
+
+    }
+
+    override fun onFinishedTrimming(uri: Uri?) {
+
+    }
+
+    override fun onErrorWhileViewingVideo(what: Int, extra: Int) {
+
+    }
+
 }
 
 internal fun Context.getResourceUri(@AnyRes resourceId: Int): Uri =
@@ -419,4 +459,10 @@ sealed class RATIO(val width: Int, val height: Int) {
 private fun Context.dpToPx(dp: Float): Float {
     val density = resources.displayMetrics.density
     return dp * density
+}
+
+private fun Context.startTrimActivity(uri: Uri) {
+    val intent = Intent(this, TrimmerActivity::class.java)
+    intent.putExtra(EXTRA_INPUT_URI, uri)
+    startActivity(intent)
 }

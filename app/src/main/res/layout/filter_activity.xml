@@ -27,7 +27,7 @@
         app:controller_layout_id="@layout/video_player_layout"
         app:fastforward_increment="10000"
         app:hide_on_touch="true"
-        app:layout_constraintBottom_toTopOf="@id/videoTrimmerView"
+        app:layout_constraintBottom_toTopOf="@id/rangeSeekBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -37,24 +37,40 @@
         app:rewind_increment="10000"
         app:show_timeout="5000"
         app:use_controller="true" />
-
+    <it.sephiroth.android.library.rangeseekbar.RangeSeekBar
+        android:id="@+id/rangeSeekBar"
+        style="@style/Base.Sephiroth.Widget.RangeSeekBar"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        android:max="100"
+        app:layout_constraintBottom_toTopOf="@id/btnpickfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:range_progress_endValue="60"
+        app:range_progress_startEnd_minDiff="1"
+        app:range_progress_startValue="50" />
     <com.abhijith.videoaspectration.videotrimmerlib.VideoTrimmerView
         android:id="@+id/videoTrimmerView"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:visibility="gone"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
+        android:visibility="visible"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
         app:layout_constraintBottom_toTopOf="@id/btnpickfile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:vtv_window_border_color="@android:color/white"
-        app:vtv_window_left_bar="@drawable/trimmer_left_bar"
-        app:vtv_window_right_bar="@drawable/trimmer_right_bar" />
+        />
     <!-- <Button
          android:id="@+id/btnTrim"
         app:vtv_window_bar_width="10dp"
         app:vtv_window_border_width="10dp"
+        app:vtv_window_left_bar="@drawable/trimmer_left_bar"
+        app:vtv_window_right_bar="@drawable/trimmer_right_bar"
 
          android:layout_width="match_parent"
          android:layout_height="wrap_content"

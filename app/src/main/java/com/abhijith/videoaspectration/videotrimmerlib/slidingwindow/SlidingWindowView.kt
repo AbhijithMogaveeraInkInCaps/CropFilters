@@ -120,20 +120,17 @@ internal class SlidingWindowView @JvmOverloads constructor(
 
     private fun drawLeftBar(canvas: Canvas) {
         ContextCompat.getDrawable(context, leftBarRes)?.apply {
-            setBounds(0, 0, barWidth.roundToInt(), height)
-
+            setBounds(0, 0, barWidth.roundToInt()+10, height)
             canvas.save()
-
             canvas.translate(leftBarX, 0f)
             draw(canvas)
-
             canvas.restore()
         }
     }
 
     private fun drawRightBar(canvas: Canvas) {
         ContextCompat.getDrawable(context, rightBarRes)?.apply {
-            setBounds(0, 0, barWidth.roundToInt(), height)
+            setBounds(0, 0, barWidth.roundToInt()+50, height)
 
             canvas.save()
 
