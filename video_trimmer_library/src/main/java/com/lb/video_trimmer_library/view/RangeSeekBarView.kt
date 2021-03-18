@@ -65,8 +65,7 @@ open class RangeSeekBarView @JvmOverloads constructor(context: Context, attrs: A
         shadowPaint.color = initShadowColor()
         strokePaint.isAntiAlias = true
         strokePaint.style = Paint.Style.STROKE
-        strokePaint.strokeWidth =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, context.resources.displayMetrics)
+        strokePaint.strokeWidth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2f, context.resources.displayMetrics)
         strokePaint.color = 0xffffffff.toInt()
         edgePaint.isAntiAlias = true
         edgePaint.color = 0xffffffff.toInt()

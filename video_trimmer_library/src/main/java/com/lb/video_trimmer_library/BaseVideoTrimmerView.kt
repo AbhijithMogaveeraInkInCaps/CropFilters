@@ -383,6 +383,7 @@ abstract class BaseVideoTrimmerView
                 onGotVideoFileSize(originSizeFile)
             }
         }
+
         videoView.setVideoURI(src)
         videoView.requestFocus()
         timeLineView.setVideo(src!!)

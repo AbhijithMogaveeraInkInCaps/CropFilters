@@ -19,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.abhijith.videoaspectration.aother.EXTRA_INPUT_URI
 import com.abhijith.videoaspectration.aother.TrimmerActivity
 import com.abhijith.videoaspectration.helper.FileUtil
-import com.abhijith.videoaspectration.videotrimmerlib.VideoTrimmerView
 import com.daasuu.mp4compose.FillMode
 import com.daasuu.mp4compose.FillModeCustomItem
 import com.daasuu.mp4compose.composer.Mp4Composer
@@ -34,14 +33,13 @@ import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.lb.video_trimmer_library.interfaces.VideoTrimmingListener
-import it.sephiroth.android.library.rangeseekbar.RangeSeekBar
 import pyxis.uzuki.live.richutilskt.utils.toast
 import java.io.File
 
 
 const val REQUEST_CODE_GALLERY_FILES = 10
 
-class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingListener  {
+class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingListener {
 
     var startMillis: Long = 0
     var endMillis: Long = 0
@@ -95,9 +93,9 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.filter_activity)
-       /* findViewById<RangeSeekBar>(R.id.rangeSeekBar).apply {
-            this.
-        }*/
+        /* findViewById<RangeSeekBar>(R.id.rangeSeekBar).apply {
+             this.
+         }*/
         findViewById<Button>(R.id.one_one).setOnClickListener {
             runSafe {
                 val fillModeCustomItem = FillModeCustomItem(
@@ -358,9 +356,11 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
                 runOnUiThread {
                     val metaRetriever = MediaMetadataRetriever()
                     metaRetriever.setDataSource(FileUtil.from(this, uri).absolutePath)
-                    actualHeight = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!
+                    actualHeight =
+                        metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT)!!
                             .toFloat()
-                    actualWidth = metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)!!
+                    actualWidth =
+                        metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)!!
                             .toFloat()
                     (if (actualWidth < 60_000) {
                         toast(actualWidth.toString())
@@ -372,34 +372,44 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
                     if (actualWidth < 60_000)
                         exoPlayer.player.addListener(this)
                     findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).init()
-                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setMaxDurationInMs(60 * 1000)
-                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setOnK4LVideoListener(this)
+                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setMaxDurationInMs(
+                        60 * 1000
+                    )
+                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setOnK4LVideoListener(
+                        this
+                    )
                     val parentFolder = getExternalFilesDir(null)!!
                     parentFolder.mkdirs()
                     val fileName = "trimmedVideo_${System.currentTimeMillis()}.mp4"
                     val trimmedVideoFile = File(parentFolder, fileName)
-                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setDestinationFile(trimmedVideoFile)
-                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setVideoURI(uri)
-                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setVideoInformationVisibility(true)
-                   /* findViewById<VideoTrimmerView>(R.id.videoTrimmerView).apply {
-                        setVideo(FileUtil.from(this@FilterActivity, uri))
-                            .setMaxDuration(
-//                                10_000
-                                (if (actualWidth < 60_000) {
-                                    toast(actualWidth.toString())
-                                    actualWidth
-                                } else {
-                                    60_000
-                                }).toLong()
+                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setDestinationFile(
+                        trimmedVideoFile
+                    )
+                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setVideoURI(
+                        uri
+                    )
+                    findViewById<com.abhijith.videoaspectration.aother.VideoTrimmerView>(R.id.videoTrimmerView).setVideoInformationVisibility(
+                        true
+                    )
+                    /* findViewById<VideoTrimmerView>(R.id.videoTrimmerView).apply {
+                         setVideo(FileUtil.from(this@FilterActivity, uri))
+                             .setMaxDuration(
+ //                                10_000
+                                 (if (actualWidth < 60_000) {
+                                     toast(actualWidth.toString())
+                                     actualWidth
+                                 } else {
+                                     60_000
+                                 }).toLong()
 
-                            )                   // millis
-                            .setMinDuration(1000)                    // millis
-                            .setFrameCountInWindow(30)
-//                            .setExtraDragSpace(dpToPx(10f))                    // pixels
-                            .setOnSelectedRangeChangedListener(this@FilterActivity)
-                            .show()
-                    }
-               */
+                             )                   // millis
+                             .setMinDuration(1000)                    // millis
+                             .setFrameCountInWindow(30)
+ //                            .setExtraDragSpace(dpToPx(10f))                    // pixels
+                             .setOnSelectedRangeChangedListener(this@FilterActivity)
+                             .show()
+                     }
+                */
                 }
 
                 Log.e("ABHIIIII", "" + FileUtil.from(this, uri).absolutePath)
@@ -448,7 +458,10 @@ class FilterActivity : AppCompatActivity(), Player.EventListener, VideoTrimmingL
     override fun onSelection(startMilliSecond: Long, endMilliSecond: Long) {
         super.onSelection(startMilliSecond, endMilliSecond)
         exoPlayer.player.seekTo(startMillis)
-        playVideo(uri, startMilliSecond, endMilliSecond)
+        if (endMilliSecond == 0.toLong())
+            playVideo(uri, startMilliSecond, endMilliSecond+1)
+        else
+            playVideo(uri, startMilliSecond, endMilliSecond)
         this.startMillis = startMilliSecond
         this.endMillis = endMilliSecond
     }
